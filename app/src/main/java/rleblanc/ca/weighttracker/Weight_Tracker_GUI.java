@@ -1,16 +1,16 @@
 package rleblanc.ca.weighttracker;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class Weight_Tracker_GUI extends ActionBarActivity {
+public class Weight_Tracker_GUI extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_weight__tracker__gui);
+        setContentView(R.layout.weight_tracker_gui_layout);
     }
 
 

@@ -9,14 +9,14 @@ import android.view.ViewGroup;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class Weight_Tracker_GUIFragment extends Fragment {
+public class Weight_Graph_Fragment extends Fragment {
 
-    public Weight_Tracker_GUIFragment() {
+    public Weight_Graph_Fragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_weight_graph, container, false);
+        return inflater.inflate(R.layout.weight_tracker_graph_layout, container, false);
     }
 }
