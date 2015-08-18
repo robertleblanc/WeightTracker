@@ -3,6 +3,7 @@ package rleblanc.ca.weighttracker;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +26,11 @@ import java.util.GregorianCalendar;
  */
 public class Weight_Graph_Fragment extends Fragment {
 
+    public static final String TAG = Weight_Graph_Fragment.class.getSimpleName();
     private Chart mChart;
     private int day_scroller = 0;
     public DbAdapter db;
-    public static final GregorianCalendar cal = new GregorianCalendar();
+    public GregorianCalendar cal;
 
 
     public Weight_Graph_Fragment() {
@@ -41,6 +43,7 @@ public class Weight_Graph_Fragment extends Fragment {
 
         mChart = new Chart(getActivity());
         db = new DbAdapter(getActivity());
+        cal = new GregorianCalendar();
 
         //mChart = (LineChart) layout.findViewById(R.id.chart);
 
@@ -51,7 +54,8 @@ public class Weight_Graph_Fragment extends Fragment {
                                                 ViewGroup.LayoutParams.MATCH_PARENT);
         rl.addView(mChart, layoutParams);
 
-        mChart.displayMonthView();
+        Log.i(TAG, "Month init: " + cal.get(Calendar.MONTH));
+        mChart.displayMonthView(cal.get(Calendar.MONTH));
 
         return layout;
     }
@@ -71,6 +75,11 @@ public class Weight_Graph_Fragment extends Fragment {
         int day = cal.get(Calendar.DAY_OF_MONTH);
         int month = cal.get(Calendar.MONTH);
         int year = cal.get(Calendar.YEAR);
-        db.insertWeight(day_scroller-1,month,year,weight);
+        db.insertWeight(day_scroller - 1, month, year, weight);
+    }
+
+    /* 0 for jan, 1 for feb, etc */
+    public void displayMonth(int month){
+        mChart.displayMonthView(month);
     }
 }

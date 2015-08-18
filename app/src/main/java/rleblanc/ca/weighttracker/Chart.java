@@ -74,8 +74,10 @@ public class Chart extends LineChart {
         y12.setEnabled(false);
     }
 
-    public void displayMonthView(){
-        int month = cal.get(Calendar.MONTH);
+    public void displayMonthView(int month){
+        this.clear();
+        this.clearAllJobs();
+        cal.set(Calendar.MONTH, month);
         String month_name = getMonth(month);
         int days_in_month = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
         Log.i(TAG, "DAYS = " + days_in_month);
