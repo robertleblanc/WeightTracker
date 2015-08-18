@@ -4,13 +4,37 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class Weight_Tracker_GUI extends Activity {
+
+    private Weight_Graph_Fragment chartFragment;
+    private Button btn_submit;
+    private EditText et_weight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weight_tracker_gui_layout);
+
+        /* Add the graph fragment to the layout */
+        chartFragment =  new Weight_Graph_Fragment();
+        getFragmentManager()
+            .beginTransaction()
+            .add(R.id.gui_layout, chartFragment, "graph_fragment").commit();
+
+        btn_submit =        (Button) findViewById(R.id.btn_submit);
+        et_weight =         (EditText) findViewById(R.id.et_weight);
+
+
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chartFragment.submit(Float.parseFloat(et_weight.getText().toString()));
+            }
+        });
     }
 
 
