@@ -30,6 +30,7 @@ public class Weight_Graph_Fragment extends Fragment {
     public static final String TAG = Weight_Graph_Fragment.class.getSimpleName();
     private Chart mChart;
     private int day_scroller = 0;
+    private int selected_month;
     public DbAdapter db;
     public GregorianCalendar cal;
     public Weight_Graph_Fragment() {
@@ -64,6 +65,7 @@ public class Weight_Graph_Fragment extends Fragment {
     }
 
     public void submit(float weight) {
+
         LineData lineData = mChart.getData();
         day_scroller = lineData.getYValCount();
 
@@ -84,6 +86,10 @@ public class Weight_Graph_Fragment extends Fragment {
 
     /* 0 for jan, 1 for feb, etc */
     public void displayMonth(int month){
+        selected_month = month;
+        cal.set(Calendar.YEAR , 2015);
+        cal.set(Calendar.MONTH, month);
+
         mChart.displayMonthView(month);
         mChart.getLineData().removeDataSet(0);
         MyLineDataSet set = db.getWeightsForMonth(month);
@@ -93,5 +99,16 @@ public class Weight_Graph_Fragment extends Fragment {
         mChart.invalidate();
         mChart.notifyDataSetChanged();
 
+    }
+
+    public void clearMonth(){
+        //mChart.clear();
+        //mChart.clearAllJobs();
+
+        mChart.clearValues();
+        db.clearMonth(selected_month);
+
+        mChart.invalidate();
+        mChart.notifyDataSetChanged();
     }
 }

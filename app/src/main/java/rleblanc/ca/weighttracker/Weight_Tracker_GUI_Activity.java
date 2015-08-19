@@ -1,7 +1,9 @@
 package rleblanc.ca.weighttracker;
 
 import android.app.Activity;
+import android.app.ActionBar;
 import android.os.Bundle;
+//import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,11 +25,17 @@ public class Weight_Tracker_GUI_Activity extends Activity {
     private EditText et_weight;
     private Spinner sp_months;
     private Spinner sp_years;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weight_tracker_gui_layout);
+
+       actionBar = getActionBar();
+        if(actionBar == null)
+            Log.i(TAG, "Actionbar was null");
+        //actionBar.hide();
 
         /* Add the graph fragment to the layout */
         chartFragment =  new Weight_Graph_Fragment();
@@ -78,8 +86,10 @@ public class Weight_Tracker_GUI_Activity extends Activity {
 
             @Override
             public void onClick(View v) {
-            chartFragment.submit(Float.parseFloat(et_weight.getText().toString()));
-            et_weight.setText("");
+                if(et_weight.getText().length() != 0) {
+                    chartFragment.submit(Float.parseFloat(et_weight.getText().toString()));
+                    et_weight.getText().clear();
+                }
             }
         });
     }
@@ -103,6 +113,12 @@ public class Weight_Tracker_GUI_Activity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
+
+        if (id == R.id.actions_clear_month){
+            chartFragment.clearMonth();
+        }
+
+
 
         return super.onOptionsItemSelected(item);
     }

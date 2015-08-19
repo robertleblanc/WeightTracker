@@ -79,6 +79,14 @@ public class DbAdapter {
         }
     }
 
+    public void clearMonth(int month){
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String WHERE = "month = ?";
+        String[] WHEREARGS = {month + ""};
+        db.delete(DbContract.Weights.TABLE_NAME,WHERE,WHEREARGS);
+    }
+
     public String getMonth(int month) {
         return new DateFormatSymbols().getMonths()[month];
     }
