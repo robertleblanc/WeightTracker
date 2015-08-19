@@ -15,9 +15,9 @@ import android.widget.Spinner;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Weight_Tracker_GUI extends Activity {
+public class Weight_Tracker_GUI_Activity extends Activity {
 
-    public static final String TAG = Weight_Tracker_GUI.class.getSimpleName();
+    public static final String TAG = Weight_Tracker_GUI_Activity.class.getSimpleName();
     private Weight_Graph_Fragment chartFragment;
     private Button btn_submit;
     private EditText et_weight;
@@ -59,13 +59,11 @@ public class Weight_Tracker_GUI extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int check = 0;
 
-                if (check == 0) {
-                    check++;
-                } else {
+
 
                     Log.i(TAG, "Tying month: " + position);
                     chartFragment.displayMonth(position);
-                }
+
             }
 
             @Override
@@ -80,9 +78,8 @@ public class Weight_Tracker_GUI extends Activity {
 
             @Override
             public void onClick(View v) {
-
-                    chartFragment.submit(Float.parseFloat(et_weight.getText().toString()));
-
+            chartFragment.submit(Float.parseFloat(et_weight.getText().toString()));
+            et_weight.setText("");
             }
         });
     }

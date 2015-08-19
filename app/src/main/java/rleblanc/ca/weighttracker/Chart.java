@@ -44,12 +44,9 @@ public class Chart extends LineChart {
         this.setPinchZoom(false);
 
         LineData data = new LineData();
-        data.addDataSet(this.stylizeSet());
         data.setValueTextColor(Color.BLACK);
 
         this.setData(data);
-
-        //this.setVisibleXRangeMaximum(10);
 
         Legend l = this.getLegend();
 
@@ -75,8 +72,8 @@ public class Chart extends LineChart {
     }
 
     public void displayMonthView(int month){
-        this.clear();
         this.clearAllJobs();
+
         cal.set(Calendar.MONTH, month);
         String month_name = getMonth(month);
         int days_in_month = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -91,7 +88,6 @@ public class Chart extends LineChart {
         }
 
         LineData data = new LineData(xvals);
-        data.addDataSet(this.stylizeSet());
         this.setData(data);
         this.getXAxis().setAvoidFirstLastClipping(true);
         this.setVisibleXRangeMaximum(10);
@@ -99,34 +95,6 @@ public class Chart extends LineChart {
 
         this.notifyDataSetChanged();
         this.invalidate();
-    }
-
-    public void submit(float _weight){
-
-    }
-
-    public LineDataSet stylizeSet(){
-
-        LineDataSet set = new LineDataSet(null, "Weights");
-        set.setAxisDependency(YAxis.AxisDependency.LEFT);
-        set.setColor(ColorTemplate.getHoloBlue());
-        set.setCircleColor(Color.RED);
-        set.setLineWidth(2f);
-        set.setCircleSize(4f);
-        set.setFillAlpha(65);
-        set.setFillColor(ColorTemplate.getHoloBlue());
-        set.setHighLightColor(Color.GREEN);
-        set.setDrawHorizontalHighlightIndicator(true);
-        set.setDrawVerticalHighlightIndicator(true);
-        set.setHighlightEnabled(true);
-
-        set.setValueTextColor(Color.BLACK);
-        set.setValueTextSize(9f);
-        set.setHighlightEnabled(true);
-        set.setDrawValues(true);
-
-        return set;
-
     }
 
     public String getMonth(int month) {

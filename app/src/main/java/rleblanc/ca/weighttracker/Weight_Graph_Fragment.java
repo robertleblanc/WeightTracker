@@ -1,6 +1,7 @@
 package rleblanc.ca.weighttracker;
 
 import android.app.Fragment;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,8 +32,6 @@ public class Weight_Graph_Fragment extends Fragment {
     private int day_scroller = 0;
     public DbAdapter db;
     public GregorianCalendar cal;
-
-
     public Weight_Graph_Fragment() {
     }
 
@@ -55,6 +54,10 @@ public class Weight_Graph_Fragment extends Fragment {
         rl.addView(mChart, layoutParams);
 
         Log.i(TAG, "Month init: " + cal.get(Calendar.MONTH));
+        //LineDataSet set = new LineDataSet(null, "weights");
+        LineData data = new LineData();
+        mChart.setData(data);
+
         mChart.displayMonthView(cal.get(Calendar.MONTH));
 
         return layout;
@@ -62,6 +65,7 @@ public class Weight_Graph_Fragment extends Fragment {
 
     public void submit(float weight) {
         LineData lineData = mChart.getData();
+        day_scroller = lineData.getYValCount();
 
         if (lineData != null) {
             Entry entry = new Entry(weight,day_scroller ++);
@@ -81,5 +85,13 @@ public class Weight_Graph_Fragment extends Fragment {
     /* 0 for jan, 1 for feb, etc */
     public void displayMonth(int month){
         mChart.displayMonthView(month);
+        mChart.getLineData().removeDataSet(0);
+        MyLineDataSet set = db.getWeightsForMonth(month);
+        set.stylize();
+
+        mChart.getLineData().addDataSet(set);
+        mChart.invalidate();
+        mChart.notifyDataSetChanged();
+
     }
 }

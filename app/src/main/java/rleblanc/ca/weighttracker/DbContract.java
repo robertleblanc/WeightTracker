@@ -33,5 +33,7 @@ public final class DbContract {
 
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
+        public static final String SELECT_BY_MONTH = "WHERE MONTH = ";
+
     }
 }
