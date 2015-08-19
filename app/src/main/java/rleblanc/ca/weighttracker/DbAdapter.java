@@ -72,7 +72,7 @@ public class DbAdapter {
 
         if(entryList.size() == 0){
             Log.i(TAG, "No Data");
-            return new MyLineDataSet(null, "No Data Available");
+            return new MyLineDataSet(null, "Weights");
         }
         else{
             return new MyLineDataSet(entryList, getMonth(_month));

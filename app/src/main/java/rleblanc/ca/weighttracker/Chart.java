@@ -63,7 +63,7 @@ public class Chart extends LineChart {
 
         YAxis y1 = this.getAxisLeft();
         y1.setTextColor(Color.BLACK);
-        y1.setAxisMaxValue(MAX_Y_VISIBLE);
+        //y1.setAxisMaxValue(MAX_Y_VISIBLE);
 
         // y1.setDrawGridLines(true);
         y1.setGridColor(Color.BLACK);
