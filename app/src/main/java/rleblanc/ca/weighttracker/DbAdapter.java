@@ -67,7 +67,7 @@ public class DbAdapter {
             int month = c.getInt(MONTHIndex);
             int year = c.getInt(YEARindex);
 
-            entryList.add(new Entry(weight,day));
+            entryList.add(new Entry(weight,day - 1));
         }
 
         if(entryList.size() == 0){
@@ -80,9 +80,8 @@ public class DbAdapter {
     }
 
     public void clearMonth(int month){
-
         SQLiteDatabase db = helper.getWritableDatabase();
-        String WHERE = "month = ?";
+        String WHERE = DbContract.Weights.COL_MONTH + " = ?";
         String[] WHEREARGS = {month + ""};
         db.delete(DbContract.Weights.TABLE_NAME,WHERE,WHEREARGS);
     }

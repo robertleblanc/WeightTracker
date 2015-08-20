@@ -39,6 +39,8 @@ public class Weight_Graph_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i(TAG, "OnCreateView Called");
+
         View layout = inflater.inflate(R.layout.weight_tracker_graph_layout, container, false);
 
         mChart = new Chart(getActivity());
@@ -67,21 +69,22 @@ public class Weight_Graph_Fragment extends Fragment {
     public void submit(float weight) {
 
         LineData lineData = mChart.getData();
-        day_scroller = lineData.getYValCount();
+        //day_scroller = lineData.getYValCount(); //Used this for testing input ofmultiple days rapidly
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH);
+        int year = cal.get(Calendar.YEAR);
 
         if (lineData != null) {
-            Entry entry = new Entry(weight,day_scroller ++);
+            Entry entry = new Entry(weight,day - 1);
             lineData.addEntry(entry, 0);
-            mChart.moveViewToX(day_scroller - 8);
+            mChart.moveViewToX(day - 8);
         }
         mChart.invalidate();
         mChart.notifyDataSetChanged();
 
         /* Add data to db */
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        int month = cal.get(Calendar.MONTH);
-        int year = cal.get(Calendar.YEAR);
-        db.insertWeight(day_scroller - 1, month, year, weight);
+
+        db.insertWeight(day, month, year, weight);
     }
 
     /* 0 for jan, 1 for feb, etc */
@@ -89,6 +92,8 @@ public class Weight_Graph_Fragment extends Fragment {
         selected_month = month;
         cal.set(Calendar.YEAR , 2015);
         cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+
 
         mChart.displayMonthView(month);
         mChart.getLineData().removeDataSet(0);
@@ -110,5 +115,11 @@ public class Weight_Graph_Fragment extends Fragment {
 
         mChart.invalidate();
         mChart.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "OnDestroy called");
     }
 }

@@ -77,14 +77,12 @@ public class Chart extends LineChart {
         cal.set(Calendar.MONTH, month);
         String month_name = getMonth(month);
         int days_in_month = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        Log.i(TAG, "DAYS = " + days_in_month);
         String[] xvals = new String[days_in_month];
 
 
         for(int i = 1; i <= days_in_month; i++){
             //this.getLineData().addXValue(i+"");
             xvals[i-1] = "Day " + (i);
-            Log.i(TAG, "Day " + i);
         }
 
         LineData data = new LineData(xvals);

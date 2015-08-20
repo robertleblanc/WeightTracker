@@ -11,4 +11,8 @@
         android:title="Clear Month"
         app:showAsAction="never" />
 
+    <item android:id="@+id/actions_cal_activity"
+        android:title="Calendar View"
+        app:showAsAction="never" />
+
 </menu>

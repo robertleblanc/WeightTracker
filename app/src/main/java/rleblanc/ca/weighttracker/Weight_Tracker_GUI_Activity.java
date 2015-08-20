@@ -2,6 +2,7 @@ package rleblanc.ca.weighttracker;
 
 import android.app.Activity;
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,17 +32,13 @@ public class Weight_Tracker_GUI_Activity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weight_tracker_gui_layout);
-
-       actionBar = getActionBar();
-        if(actionBar == null)
-            Log.i(TAG, "Actionbar was null");
-        //actionBar.hide();
+        Log.i(TAG, "OnCreate called");
 
         /* Add the graph fragment to the layout */
         chartFragment =  new Weight_Graph_Fragment();
         getFragmentManager()
             .beginTransaction()
-            .add(R.id.gui_layout, chartFragment, "graph_fragment").commit();
+            .replace(R.id.gui_layout, chartFragment, "graph_fragment").commit();
 
         btn_submit =        (Button) findViewById(R.id.btn_submit);
         et_weight =         (EditText) findViewById(R.id.et_weight);
@@ -53,34 +50,20 @@ public class Weight_Tracker_GUI_Activity extends Activity {
                 ArrayAdapter.createFromResource(this,
                                                 R.array.Months,
                                                 android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-
         sp_months.setAdapter(adapter);
-        sp_months.setSelected(false);
         sp_months.setSelection(new GregorianCalendar().get(Calendar.MONTH));
         sp_months.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int check = 0;
-
-
-
-                    Log.i(TAG, "Tying month: " + position);
-                    chartFragment.displayMonth(position);
-
+                Log.i(TAG, "Trying month: " + position);
+                chartFragment.displayMonth(position);
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {   }
         });
-
-
 
         btn_submit.setOnClickListener(new View.OnClickListener() {
 
@@ -118,8 +101,18 @@ public class Weight_Tracker_GUI_Activity extends Activity {
             chartFragment.clearMonth();
         }
 
-
+        if(id == R.id.actions_cal_activity){
+            Intent i = new Intent(this, Calendar_Activity.class);
+            startActivity(i);
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "OnDestroy called");
+
     }
 }
