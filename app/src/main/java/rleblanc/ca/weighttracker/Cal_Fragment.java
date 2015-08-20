@@ -2,15 +2,18 @@ package rleblanc.ca.weighttracker;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -23,8 +26,17 @@ public class Cal_Fragment extends Fragment {
     public GridView gridView;
     public GregorianCalendar calendar;
     public ArrayList<String> days_in_month;
+    public int month;
+    public int year;
     public MyGridAdapter grid_adapter;
 
+    public Cal_Fragment(){
+        super();
+        calendar = new GregorianCalendar(); //Sets calendar to today right now
+        days_in_month = get_Days_In_Month();
+        month = calendar.get(Calendar.MONTH);
+        year = calendar.get(Calendar.YEAR);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -34,10 +46,18 @@ public class Cal_Fragment extends Fragment {
 
         gridView = (GridView) v.findViewById(R.id.gv_calendar);
         gridView.setBackgroundColor(0xfff0f0f0  );
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(getActivity(), Day_Entry_Activity.class);
+                i.putExtra("month_name", getMonthName());
+                i.putExtra("day", position+1);
+                startActivity(i);
+            }
+        });
         //gv.setVerticalSpacing(1);
         //gv.setHorizontalSpacing(1);
-        calendar = new GregorianCalendar(); //Sets calendar to today right now
-        days_in_month = get_Days_In_Month();
+
         grid_adapter = new MyGridAdapter(getActivity(), days_in_month);
         gridView.setAdapter(grid_adapter);
 
@@ -54,6 +74,38 @@ public class Cal_Fragment extends Fragment {
         }
         return days;
     }
+
+    public void nextMonth(){
+        calendar.set(Calendar.MONTH, month+1 );
+        month = calendar.get(Calendar.MONTH);
+        days_in_month = get_Days_In_Month();
+        gridView.setAdapter(new MyGridAdapter(getActivity(), days_in_month));
+    }
+
+    public void prevMonth(){
+        calendar.set(Calendar.MONTH, month-1 );
+        month = calendar.get(Calendar.MONTH);
+        days_in_month = get_Days_In_Month();
+        gridView.setAdapter(new MyGridAdapter(getActivity(), days_in_month));
+    }
+
+
+    public int getMonth(){
+        return month;
+    }
+
+    public int getYear(){
+        return year;
+    }
+
+    public String getMonthName(){
+        return getMonth(getMonth());
+    }
+
+    public String getMonth(int _month) {
+        return new DateFormatSymbols().getMonths()[_month];
+    }
+
 }
 
 class MyGridAdapter extends BaseAdapter{
@@ -104,4 +156,5 @@ class MyGridAdapter extends BaseAdapter{
         holder.tv_day.setText(days_in_month.get(position));
         return row;
     }
+
 }

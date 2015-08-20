@@ -79,6 +79,11 @@ public class DbAdapter {
         }
     }
 
+    public float getDayData(int day, int month, int year){
+
+        return 0.00f;
+    }
+
     public void clearMonth(int month){
         SQLiteDatabase db = helper.getWritableDatabase();
         String WHERE = DbContract.Weights.COL_MONTH + " = ?";
