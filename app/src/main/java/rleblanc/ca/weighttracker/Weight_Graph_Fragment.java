@@ -31,6 +31,7 @@ public class Weight_Graph_Fragment extends Fragment {
     private Chart mChart;
     private int day_scroller = 0;
     private int selected_month;
+    private int today;
     public DbAdapter db;
     public GregorianCalendar cal;
     public Weight_Graph_Fragment() {
@@ -46,6 +47,7 @@ public class Weight_Graph_Fragment extends Fragment {
         mChart = new Chart(getActivity());
         db = new DbAdapter(getActivity());
         cal = new GregorianCalendar();
+        today = cal.get(Calendar.DAY_OF_MONTH);
 
         //mChart = (LineChart) layout.findViewById(R.id.chart);
 
@@ -75,16 +77,16 @@ public class Weight_Graph_Fragment extends Fragment {
         int year = cal.get(Calendar.YEAR);
 
         if (lineData != null) {
-            Entry entry = new Entry(weight,day - 1);
+            Entry entry = new Entry(weight,today-1);
             lineData.addEntry(entry, 0);
-            mChart.moveViewToX(day - 8);
+            mChart.moveViewToX(today - 8);
         }
         mChart.invalidate();
         mChart.notifyDataSetChanged();
 
         /* Add data to db */
 
-        db.insertWeight(day, month, year, weight);
+        db.insertWeight(today, month, year, weight);
     }
 
     /* 0 for jan, 1 for feb, etc */

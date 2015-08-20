@@ -51,6 +51,7 @@ public class Cal_Fragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getActivity(), Day_Entry_Activity.class);
                 i.putExtra("month_name", getMonthName());
+                i.putExtra("month", getMonth());
                 i.putExtra("day", position+1);
                 startActivity(i);
             }

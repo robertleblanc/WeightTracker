@@ -49,7 +49,7 @@ public class DbAdapter {
         };
 
 
-        Cursor c = db.query(DbContract.Weights.TABLE_NAME, cols, DbContract.Weights.COL_MONTH + " = '" + _month + "'", null, null, null, null);
+        Cursor c = db.query(DbContract.Weights.TABLE_NAME, cols, DbContract.Weights.COL_MONTH + " = '" + _month + "'", null, null, null, DbContract.Weights.COL_DAY + " ASC");
         StringBuffer buffer = new StringBuffer();
         LineDataSet dataSet;
         List<Entry> entryList = new ArrayList<>();
@@ -80,8 +80,24 @@ public class DbAdapter {
     }
 
     public float getDayData(int day, int month, int year){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String cols[] = {
+                DbContract.Weights.COL_DAY,
+                DbContract.Weights.COL_MONTH,
+                DbContract.Weights.COL_YEAR,
+                DbContract.Weights.COL_WEIGHT
+        };
 
-        return 0.00f;
+
+        Cursor c = db.query(DbContract.Weights.TABLE_NAME, cols, "day =? and month=? and year=?", new String[]{day + "", month + "", year+""}, null, null,DbContract.Weights.COL_DAY + " ASC");
+
+        float weight = 0.0f;
+        while(c.moveToNext()){
+            int WEIGHTindex = c.getColumnIndex(DbContract.Weights.COL_WEIGHT);
+            weight = c.getFloat(WEIGHTindex);
+        }
+
+        return weight;
     }
 
     public void clearMonth(int month){
