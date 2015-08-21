@@ -72,7 +72,7 @@ public class Chart extends LineChart {
     }
 
     public void displayMonthView(int month){
-        this.clearAllJobs();
+        this.clear();
 
         cal.set(Calendar.MONTH, month);
         String month_name = getMonth(month);
@@ -86,13 +86,18 @@ public class Chart extends LineChart {
         }
 
         LineData data = new LineData(xvals);
+        MyLineDataSet set = new MyLineDataSet(null, "weights");
+        set.stylize();
+        data.addDataSet(set);
+
+
         this.setData(data);
         this.getXAxis().setAvoidFirstLastClipping(true);
-        this.setVisibleXRangeMaximum(10);
+        //this.setVisibleXRangeMaximum(10);
         this.setDescription(month_name);
 
-        this.notifyDataSetChanged();
         this.invalidate();
+        this.notifyDataSetChanged();
     }
 
     public String getMonth(int month) {

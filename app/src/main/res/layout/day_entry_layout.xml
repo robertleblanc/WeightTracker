@@ -10,17 +10,29 @@
         android:text="Data"
         android:id="@+id/tv_date" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Weight Data"
-        android:id="@+id/tv_weight" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Weight Data"
+            android:id="@+id/tv_weight" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clear"
+            android:id="@+id/btn_clear_weight" />
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <EditText
             android:layout_width="wrap_content"
@@ -28,8 +40,7 @@
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/et_weight"
-            android:layout_weight="1"
-            android:text="Enter Weight" />
+            android:layout_weight="1" />
 
         <Button
             android:layout_width="wrap_content"

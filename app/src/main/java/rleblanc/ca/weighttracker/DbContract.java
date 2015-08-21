@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
 public final class DbContract {
 
     public static final String DATABASE_NAME = "weights.db";
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 1;
 
 
 
@@ -25,7 +25,7 @@ public final class DbContract {
         public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME
                 + " ( "
                 + _ID + " INTEGER PRIMARY KEY, "
-                + COL_DAY + " TEXT, "
+                + COL_DAY + " INTEGER, "
                 + COL_MONTH + " TEXT, "
                 + COL_YEAR + " TEXT, "
                 + COL_WEIGHT + " TEXT "

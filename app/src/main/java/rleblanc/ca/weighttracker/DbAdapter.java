@@ -28,6 +28,16 @@ public class DbAdapter {
         helper = new DbHelper(context);
     }
 
+    public void deleteDayData(int day, int month, int year){
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String WHERE = DbContract.Weights.COL_DAY + " =? and "
+                + DbContract.Weights.COL_MONTH + " =? and "
+                + DbContract.Weights.COL_YEAR + " =?";
+
+        String[] WHEREARGS = {day + "", month +"", year +""};
+        db.delete(DbContract.Weights.TABLE_NAME,WHERE,WHEREARGS);
+    }
+
     public long insertWeight(int day,int month, int year, float weight){
         SQLiteDatabase dbb = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -49,7 +59,8 @@ public class DbAdapter {
         };
 
 
-        Cursor c = db.query(DbContract.Weights.TABLE_NAME, cols, DbContract.Weights.COL_MONTH + " = '" + _month + "'", null, null, null, DbContract.Weights.COL_DAY + " ASC");
+        Cursor c = db.query(DbContract.Weights.TABLE_NAME, cols, DbContract.Weights.COL_MONTH + " =?", new String[]{_month + ""}, null, null,DbContract.Weights.COL_DAY + " ASC");
+
         StringBuffer buffer = new StringBuffer();
         LineDataSet dataSet;
         List<Entry> entryList = new ArrayList<>();

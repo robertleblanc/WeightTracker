@@ -68,6 +68,13 @@ public class Weight_Graph_Fragment extends Fragment {
         return layout;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        this.displayMonth(selected_month);
+    }
+
     public void submit(float weight) {
 
         LineData lineData = mChart.getData();
@@ -78,15 +85,14 @@ public class Weight_Graph_Fragment extends Fragment {
 
         if (lineData != null) {
             Entry entry = new Entry(weight,today-1);
+
             lineData.addEntry(entry, 0);
+
             mChart.moveViewToX(today - 8);
+            db.insertWeight(today, month, year, weight);
         }
-        mChart.invalidate();
+        displayMonth(selected_month);
         mChart.notifyDataSetChanged();
-
-        /* Add data to db */
-
-        db.insertWeight(today, month, year, weight);
     }
 
     /* 0 for jan, 1 for feb, etc */
@@ -109,14 +115,10 @@ public class Weight_Graph_Fragment extends Fragment {
     }
 
     public void clearMonth(){
-        //mChart.clear();
-        //mChart.clearAllJobs();
-
-        mChart.clearValues();
         db.clearMonth(selected_month);
 
-        mChart.invalidate();
-        mChart.notifyDataSetChanged();
+        mChart.displayMonthView(selected_month);
+
     }
 
     @Override

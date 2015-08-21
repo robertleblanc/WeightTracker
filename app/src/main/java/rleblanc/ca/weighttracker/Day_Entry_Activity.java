@@ -18,6 +18,7 @@ public class Day_Entry_Activity extends Activity {
     TextView tv_weight;
     EditText et_weight;
     Button btn_submit;
+    Button btn_clear_weight;
     int day;
 
     DbAdapter db;
@@ -36,6 +37,7 @@ public class Day_Entry_Activity extends Activity {
         tv_weight = (TextView) findViewById(R.id.tv_weight);
         et_weight = (EditText)findViewById(R.id.et_weight);
         btn_submit = (Button) findViewById(R.id.btn_submit);
+        btn_clear_weight = (Button) findViewById(R.id.btn_clear_weight);
 
         tv_date.setText(month_name + " " + day);
 
@@ -47,8 +49,17 @@ public class Day_Entry_Activity extends Activity {
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.insertWeight(day, month,2015, Float.parseFloat(et_weight.getText().toString()));
+                db.insertWeight(day, month, 2015, Float.parseFloat(et_weight.getText().toString()));
                 et_weight.getText().clear();
+                tv_weight.setText(db.getDayData(day, month, 2015) + " pounds");
+            }
+        });
+
+        btn_clear_weight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.deleteDayData(day, month, 2015);
+                tv_weight.setText(db.getDayData(day, month, 2015) + " pounds");
             }
         });
 
