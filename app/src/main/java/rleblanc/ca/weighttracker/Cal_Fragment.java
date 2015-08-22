@@ -61,7 +61,7 @@ public class Cal_Fragment extends Fragment {
         //gv.setVerticalSpacing(1);
         //gv.setHorizontalSpacing(1);
 
-        grid_adapter = new MyGridAdapter(getActivity(), days_in_month);
+        grid_adapter = new MyGridAdapter(getActivity(), month, year);
         gridView.setAdapter(grid_adapter);
 
 
@@ -82,21 +82,21 @@ public class Cal_Fragment extends Fragment {
         calendar.set(Calendar.MONTH, month+1 );
         month = calendar.get(Calendar.MONTH);
         days_in_month = get_Days_In_Month();
-        gridView.setAdapter(new MyGridAdapter(getActivity(), days_in_month));
+        gridView.setAdapter(new MyGridAdapter(getActivity(), month, year));
     }
 
     public void prevMonth(){
         calendar.set(Calendar.MONTH, month-1 );
         month = calendar.get(Calendar.MONTH);
         days_in_month = get_Days_In_Month();
-        gridView.setAdapter(new MyGridAdapter(getActivity(), days_in_month));
+        gridView.setAdapter(new MyGridAdapter(getActivity(),month, year));
     }
 
     public void nextYear(){
         calendar.set(Calendar.YEAR, year+1 );
         year = calendar.get(Calendar.YEAR);
         days_in_month = get_Days_In_Month();
-        gridView.setAdapter(new MyGridAdapter(getActivity(), days_in_month));
+        gridView.setAdapter(new MyGridAdapter(getActivity(), month, year));
 
     }
 
@@ -104,7 +104,7 @@ public class Cal_Fragment extends Fragment {
         calendar.set(Calendar.YEAR, year-1 );
         year = calendar.get(Calendar.YEAR);
         days_in_month = get_Days_In_Month();
-        gridView.setAdapter(new MyGridAdapter(getActivity(), days_in_month));
+        gridView.setAdapter(new MyGridAdapter(getActivity(), month, year));
     }
 
 
@@ -127,21 +127,28 @@ public class Cal_Fragment extends Fragment {
 }
 
 class MyGridAdapter extends BaseAdapter{
-    ArrayList<String> days_in_month;
+    int days_in_month;
+    int month;
+    int year;
+    GregorianCalendar cal;
     Context context;
 
-    public MyGridAdapter(Context _context, ArrayList<String> _days_in_month){
-        days_in_month = _days_in_month;
+    public MyGridAdapter(Context _context, int _month, int _year){
+        cal = new GregorianCalendar(year, month, 1);
+        month = _month;
+        year = _year;
+        days_in_month = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
         context = _context;
     }
     @Override
     public int getCount() {
-        return days_in_month.size();
+        return days_in_month;
     }
 
+    //THis probably needs to be fixed
     @Override
     public Object getItem(int position) {
-        return days_in_month.get(position);
+        return days_in_month;
     }
 
     @Override
@@ -151,8 +158,10 @@ class MyGridAdapter extends BaseAdapter{
 
     class ViewHolder {
         TextView tv_day;
+        TextView tv_weight_in_cal;
         ViewHolder(View view){
             tv_day = (TextView) view.findViewById(R.id.tv_day_in_month);
+            tv_weight_in_cal = (TextView) view.findViewById(R.id.tv_weight_in_cal);
         }
     }
 
@@ -160,6 +169,7 @@ class MyGridAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         ViewHolder holder = null;
+        DbAdapter db = new DbAdapter(context);
         if(row == null){
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.day_view, parent, false);
@@ -171,7 +181,17 @@ class MyGridAdapter extends BaseAdapter{
 
         }
 
-        holder.tv_day.setText(days_in_month.get(position));
+        float weight = db.getDayData(position+1, month, year);
+
+        String disp_weight;
+        if(weight == 0.0f){
+            disp_weight = "-";
+        }
+        else{
+            disp_weight = weight+"";
+        }
+        holder.tv_weight_in_cal.setText(disp_weight);
+        holder.tv_day.setText(position + 1 + "");
         return row;
     }
 
