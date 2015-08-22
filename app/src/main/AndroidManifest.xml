@@ -12,6 +12,11 @@
 
             android:name=".Weight_Tracker_GUI_Activity"
             android:label="@string/app_name" >
+
+        </activity>
+
+        <activity android:name=".Calendar_Activity"/>
+        <activity android:name=".Day_Entry_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,8 +24,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Calendar_Activity"/>
-        <activity android:name=".Day_Entry_Activity"/>
     </application>
 
 </manifest>

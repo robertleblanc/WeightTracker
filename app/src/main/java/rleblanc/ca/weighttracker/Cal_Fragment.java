@@ -45,7 +45,7 @@ public class Cal_Fragment extends Fragment {
         View v = inflater.inflate(R.layout.cal_fragment_layout, container, false);
 
         gridView = (GridView) v.findViewById(R.id.gv_calendar);
-        gridView.setBackgroundColor(0xfff0f0f0  );
+        gridView.setBackgroundColor(0xfff0f0f0);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -53,7 +53,9 @@ public class Cal_Fragment extends Fragment {
                 i.putExtra("month_name", getMonthName());
                 i.putExtra("month", getMonth());
                 i.putExtra("day", position+1);
+                i.putExtra("year", year);
                 startActivity(i);
+                getActivity().finish();
             }
         });
         //gv.setVerticalSpacing(1);
@@ -86,6 +88,21 @@ public class Cal_Fragment extends Fragment {
     public void prevMonth(){
         calendar.set(Calendar.MONTH, month-1 );
         month = calendar.get(Calendar.MONTH);
+        days_in_month = get_Days_In_Month();
+        gridView.setAdapter(new MyGridAdapter(getActivity(), days_in_month));
+    }
+
+    public void nextYear(){
+        calendar.set(Calendar.YEAR, year+1 );
+        year = calendar.get(Calendar.YEAR);
+        days_in_month = get_Days_In_Month();
+        gridView.setAdapter(new MyGridAdapter(getActivity(), days_in_month));
+
+    }
+
+    public void prevYear(){
+        calendar.set(Calendar.YEAR, year-1 );
+        year = calendar.get(Calendar.YEAR);
         days_in_month = get_Days_In_Month();
         gridView.setAdapter(new MyGridAdapter(getActivity(), days_in_month));
     }

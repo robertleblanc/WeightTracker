@@ -18,7 +18,7 @@ import android.widget.Spinner;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Weight_Tracker_GUI_Activity extends Activity {
+public class Weight_Tracker_GUI_Activity extends MyActionBarActivity {
 
     public static final String TAG = Weight_Tracker_GUI_Activity.class.getSimpleName();
     private Weight_Graph_Fragment chartFragment;
@@ -48,8 +48,8 @@ public class Weight_Tracker_GUI_Activity extends Activity {
         /* Setup the spiners */
         ArrayAdapter<CharSequence> adapter =
                 ArrayAdapter.createFromResource(this,
-                                                R.array.Months,
-                                                android.R.layout.simple_spinner_item);
+                        R.array.Months,
+                        android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_months.setAdapter(adapter);
         sp_months.setSelection(new GregorianCalendar().get(Calendar.MONTH));
@@ -80,34 +80,11 @@ public class Weight_Tracker_GUI_Activity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_weight__tracker__gui, menu);
+        super.onCreateOptionsMenu(menu);
+        menu.findItem(R.id.actions_clear_month).setVisible(true);
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        if (id == R.id.actions_clear_month){
-            chartFragment.clearMonth();
-        }
-
-        if(id == R.id.actions_cal_activity){
-            Intent i = new Intent(this, Calendar_Activity.class);
-            startActivity(i);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onDestroy() {
